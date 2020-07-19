@@ -11,10 +11,26 @@ export namespace Components {
             nickname: string;
             message: string;
         }[];
+        "sendMessage": (message: string) => void;
+        "updateReadMessageCount": (count: number) => void;
+    }
+    interface AppGame {
     }
     interface AppHome {
+        "appendMessage": (message: {
+            nickname: string;
+            message: string;
+        }) => void;
+        "claimHost": (isHost: boolean) => void;
+        "connectToPeer": (peerId: string) => void;
+        "nickname": string;
+        "peerId": string;
+        "updateNickname": (nickname: string) => void;
     }
     interface AppRoot {
+    }
+    interface AppTabs {
+        "unreadMessageCount": number;
     }
 }
 declare global {
@@ -23,6 +39,12 @@ declare global {
     var HTMLAppChatElement: {
         prototype: HTMLAppChatElement;
         new (): HTMLAppChatElement;
+    };
+    interface HTMLAppGameElement extends Components.AppGame, HTMLStencilElement {
+    }
+    var HTMLAppGameElement: {
+        prototype: HTMLAppGameElement;
+        new (): HTMLAppGameElement;
     };
     interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {
     }
@@ -36,10 +58,18 @@ declare global {
         prototype: HTMLAppRootElement;
         new (): HTMLAppRootElement;
     };
+    interface HTMLAppTabsElement extends Components.AppTabs, HTMLStencilElement {
+    }
+    var HTMLAppTabsElement: {
+        prototype: HTMLAppTabsElement;
+        new (): HTMLAppTabsElement;
+    };
     interface HTMLElementTagNameMap {
         "app-chat": HTMLAppChatElement;
+        "app-game": HTMLAppGameElement;
         "app-home": HTMLAppHomeElement;
         "app-root": HTMLAppRootElement;
+        "app-tabs": HTMLAppTabsElement;
     }
 }
 declare namespace LocalJSX {
@@ -48,16 +78,33 @@ declare namespace LocalJSX {
             nickname: string;
             message: string;
         }[];
-        "onMessageSend"?: (event: CustomEvent<string>) => void;
+        "sendMessage"?: (message: string) => void;
+        "updateReadMessageCount"?: (count: number) => void;
+    }
+    interface AppGame {
     }
     interface AppHome {
+        "appendMessage"?: (message: {
+            nickname: string;
+            message: string;
+        }) => void;
+        "claimHost"?: (isHost: boolean) => void;
+        "connectToPeer"?: (peerId: string) => void;
+        "nickname"?: string;
+        "peerId"?: string;
+        "updateNickname"?: (nickname: string) => void;
     }
     interface AppRoot {
     }
+    interface AppTabs {
+        "unreadMessageCount"?: number;
+    }
     interface IntrinsicElements {
         "app-chat": AppChat;
+        "app-game": AppGame;
         "app-home": AppHome;
         "app-root": AppRoot;
+        "app-tabs": AppTabs;
     }
 }
 export { LocalJSX as JSX };
@@ -65,8 +112,10 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "app-chat": LocalJSX.AppChat & JSXBase.HTMLAttributes<HTMLAppChatElement>;
+            "app-game": LocalJSX.AppGame & JSXBase.HTMLAttributes<HTMLAppGameElement>;
             "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
+            "app-tabs": LocalJSX.AppTabs & JSXBase.HTMLAttributes<HTMLAppTabsElement>;
         }
     }
 }
