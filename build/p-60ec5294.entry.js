@@ -1,0 +1,1 @@
+import{r as o,h as n}from"./p-254cd0e5.js";const t=class{constructor(n){o(this,n)}render(){return[n("ion-header",null,n("ion-toolbar",{color:"primary"},n("ion-title",null,"Home"),n("ion-buttons",{slot:"start"},n("ion-menu-button",null)))),n("ion-content",{class:"ion-padding"},n("ion-text",null,"Home is working!"))]}};t.style="";export{t as app_home}
