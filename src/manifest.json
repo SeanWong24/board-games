@@ -1,7 +1,7 @@
 {
-  "name": "board-games",
-  "short_name": "board-games",
-  "start_url": "/",
+  "name": "Board Game",
+  "short_name": "BoardGame",
+  "start_url": "./",
   "display": "standalone",
   "icons": [{
     "src": "assets/icon/icon192.png",

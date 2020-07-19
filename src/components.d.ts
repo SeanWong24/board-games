@@ -7,6 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface AppChat {
+        "messageList": {
+            nickname: string;
+            message: string;
+        }[];
     }
     interface AppHome {
     }
@@ -40,6 +44,11 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppChat {
+        "messageList"?: {
+            nickname: string;
+            message: string;
+        }[];
+        "onMessageSend"?: (event: CustomEvent<string>) => void;
     }
     interface AppHome {
     }
