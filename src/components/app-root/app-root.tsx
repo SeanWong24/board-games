@@ -65,7 +65,7 @@ export class AppRoot {
           ></app-chat>
         </ion-menu>
 
-        <ion-router useHash={false}>
+        <ion-router useHash={true}>
           <ion-route url="/" component="app-home" />
         </ion-router>
         <ion-nav id="main" />
