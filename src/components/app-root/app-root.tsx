@@ -37,10 +37,12 @@ export class AppRoot {
                   connectToPeer: this.connectToPeer,
                   claimHost: this.claimHost,
                   appendMessage: this.appendMessage
-                }} />
+                }}></ion-route>
             </ion-route>
             <ion-route url="/game" component="game">
-              <ion-route component="app-game" />
+              <ion-route url="/" component="app-game"></ion-route>
+              <ion-route url="/who-is-the-spy" component="app-game-who-is-the-spy"></ion-route>
+              <ion-route url="/codenames" component="app-game-codenames"></ion-route>
             </ion-route>
             <ion-route
               url="/chat"
@@ -49,7 +51,7 @@ export class AppRoot {
                 messageList: this.messageList,
                 sendMessage: this.sendMessage,
                 updateReadMessageCount: this.updateReadMessageCount
-              }} />
+              }}></ion-route>
             </ion-route>
           </ion-route>
         </ion-router>

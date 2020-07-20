@@ -16,6 +16,10 @@ export namespace Components {
     }
     interface AppGame {
     }
+    interface AppGameCodenames {
+    }
+    interface AppGameWhoIsTheSpy {
+    }
     interface AppHome {
         "appendMessage": (message: {
             nickname: string;
@@ -46,6 +50,18 @@ declare global {
         prototype: HTMLAppGameElement;
         new (): HTMLAppGameElement;
     };
+    interface HTMLAppGameCodenamesElement extends Components.AppGameCodenames, HTMLStencilElement {
+    }
+    var HTMLAppGameCodenamesElement: {
+        prototype: HTMLAppGameCodenamesElement;
+        new (): HTMLAppGameCodenamesElement;
+    };
+    interface HTMLAppGameWhoIsTheSpyElement extends Components.AppGameWhoIsTheSpy, HTMLStencilElement {
+    }
+    var HTMLAppGameWhoIsTheSpyElement: {
+        prototype: HTMLAppGameWhoIsTheSpyElement;
+        new (): HTMLAppGameWhoIsTheSpyElement;
+    };
     interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {
     }
     var HTMLAppHomeElement: {
@@ -67,6 +83,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "app-chat": HTMLAppChatElement;
         "app-game": HTMLAppGameElement;
+        "app-game-codenames": HTMLAppGameCodenamesElement;
+        "app-game-who-is-the-spy": HTMLAppGameWhoIsTheSpyElement;
         "app-home": HTMLAppHomeElement;
         "app-root": HTMLAppRootElement;
         "app-tabs": HTMLAppTabsElement;
@@ -82,6 +100,10 @@ declare namespace LocalJSX {
         "updateReadMessageCount"?: (count: number) => void;
     }
     interface AppGame {
+    }
+    interface AppGameCodenames {
+    }
+    interface AppGameWhoIsTheSpy {
     }
     interface AppHome {
         "appendMessage"?: (message: {
@@ -102,6 +124,8 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "app-chat": AppChat;
         "app-game": AppGame;
+        "app-game-codenames": AppGameCodenames;
+        "app-game-who-is-the-spy": AppGameWhoIsTheSpy;
         "app-home": AppHome;
         "app-root": AppRoot;
         "app-tabs": AppTabs;
@@ -113,6 +137,8 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "app-chat": LocalJSX.AppChat & JSXBase.HTMLAttributes<HTMLAppChatElement>;
             "app-game": LocalJSX.AppGame & JSXBase.HTMLAttributes<HTMLAppGameElement>;
+            "app-game-codenames": LocalJSX.AppGameCodenames & JSXBase.HTMLAttributes<HTMLAppGameCodenamesElement>;
+            "app-game-who-is-the-spy": LocalJSX.AppGameWhoIsTheSpy & JSXBase.HTMLAttributes<HTMLAppGameWhoIsTheSpyElement>;
             "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "app-tabs": LocalJSX.AppTabs & JSXBase.HTMLAttributes<HTMLAppTabsElement>;

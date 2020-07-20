@@ -3,7 +3,8 @@ import Peer from 'peerjs';
 
 @Component({
   tag: 'app-home',
-  styleUrl: 'app-home.css'
+  styleUrl: 'app-home.css',
+  scoped: true,
 })
 export class AppHome {
 

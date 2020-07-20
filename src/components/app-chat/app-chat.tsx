@@ -3,6 +3,7 @@ import { Component, ComponentInterface, Host, h, Prop } from '@stencil/core';
 @Component({
   tag: 'app-chat',
   styleUrl: 'app-chat.css',
+  scoped: true,
 })
 export class AppChat implements ComponentInterface {
 
