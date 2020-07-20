@@ -34,7 +34,10 @@ export class AppTabs implements ComponentInterface {
             <ion-tab-button tab="chat">
               <ion-icon name="chatbubbles"></ion-icon>
               <ion-label>Chat</ion-label>
-              <ion-badge>{this.unreadMessageCount}</ion-badge>
+              {
+                this.unreadMessageCount > 0 &&
+                <ion-badge>{this.unreadMessageCount}</ion-badge>
+              }
             </ion-tab-button>
           </ion-tab-bar>
         </ion-tabs>
