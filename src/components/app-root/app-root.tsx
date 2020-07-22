@@ -1,5 +1,6 @@
 import { Component, h, State } from '@stencil/core';
 import Peer from 'peerjs';
+import { Message } from '../../utils/message';
 
 @Component({
   tag: 'app-root',
@@ -8,34 +9,30 @@ import Peer from 'peerjs';
 export class AppRoot {
 
   peer: Peer;
-  isHost: boolean;
   connectionMap = new Map<string, Peer.DataConnection>();
 
   @State() peerId: string;
+  @State() hostId: string;
   @State() nickname: string = 'Player' + Math.random().toString().substring(2, 7);
-  @State() messageList: { nickname: string, message: string }[] = [];
+  @State() chatMessageList: Message[] = [];
   @State() readMessageCount: number = 0;
-
-
-  connectedCallback() {
-    this.createPeer();
-  }
 
   render() {
     return (
       <ion-app>
         <ion-router useHash={true}>
           <ion-route-redirect from="/" to="/home" />
-          <ion-route component="app-tabs" componentProps={{ unreadMessageCount: this.messageList.length - this.readMessageCount }}>
+          <ion-route component="app-tabs" componentProps={{ unreadMessageCount: this.chatMessageList.length - this.readMessageCount }}>
             <ion-route url="/home" component="home">
               <ion-route
                 component="app-home"
                 componentProps={{
                   peerId: this.peerId,
+                  hostId: this.hostId,
                   nickname: this.nickname,
                   updateNickname: this.updateNickname,
+                  createPeer: this.createPeer,
                   connectToPeer: this.connectToPeer,
-                  claimHost: this.claimHost,
                   appendMessage: this.appendMessage
                 }}></ion-route>
             </ion-route>
@@ -48,9 +45,9 @@ export class AppRoot {
               url="/chat"
               component="chat">
               <ion-route component="app-chat" componentProps={{
-                messageList: this.messageList,
-                sendMessage: this.sendMessage,
-                updateReadMessageCount: this.updateReadMessageCount
+                chatMessageList: this.chatMessageList,
+                sendChatMessage: this.sendChatMessage,
+                updateReadChatMessageCount: this.updateReadChatMessageCount
               }}></ion-route>
             </ion-route>
           </ion-route>
@@ -60,49 +57,71 @@ export class AppRoot {
     );
   }
 
-  createPeer() {
-    this.peer = new Peer({ host: 'peer-signaling-server.herokuapp.com', secure: true, key: 'peerjs', path: '/' });
-    this.peer.on('open', id => this.peerId = id);
+  createPeer = (peerId?: string) => {
+    this.peer = new Peer(peerId, { host: 'peer-signaling-server.herokuapp.com', secure: true, key: 'peerjs', path: '/' });
+    this.peer.on('open', id => {
+      this.peerId = id;
+      if (peerId) {
+        this.hostId = id;
+      }
+    });
+    this.peer.on('error', error => {
+      if (error.type === 'unavailable-id') {
+        alert('The id has been taken.');
+      }
+    });
     this.peer.on('connection', connection => {
       if (!this.connectionMap.has(connection.peer)) {
         this.connectionMap.set(connection.peer, this.peer.connect(connection.peer));
       }
-      connection.on('data', data => this.messageList = this.messageList.concat(JSON.parse(data)));
-    })
+      connection.on('data', data => {
+        const message = JSON.parse(data) as Message;
+        if (this.peerId === this.hostId) {
+          this.sendChatMessage(message.content, message.player, connection.peer);
+        } else {
+          this.chatMessageList = this.chatMessageList.concat(JSON.parse(data));
+        }
+      });
+    });
   }
 
   connectToPeer = (peerId: string) => {
     const connection = this.peer.connect(peerId);
     this.connectionMap.set(peerId, connection);
     connection.on('open', () => {
-      const message = {
-        nickname: this.nickname,
-        message: 'hi!'
+      if (this.peerId && !this.hostId) {
+        this.hostId = peerId;
+      }
+      const message: Message = {
+        type: 'chat',
+        player: this.nickname,
+        content: 'hi!'
       };
       connection.send(JSON.stringify(message));
       this.appendMessage(message);
     })
   }
 
-  claimHost(isHost: boolean) {
-    this.isHost = isHost;
-  }
-
   updateNickname = (nickname: string) => this.nickname = nickname;
 
-  sendMessage = (message: string) => {
-    const messageObject = {
-      nickname: this.nickname,
-      message
+  sendChatMessage = (content: string, player?: string, excludedPeerId?: string) => {
+    const message: Message = {
+      type: 'chat',
+      player: player || this.nickname,
+      content: content
     };
-    for (const connection of this.connectionMap.values()) {
-      connection.send(JSON.stringify(messageObject));
+    let connectionList = [...this.connectionMap.values()];
+    if (excludedPeerId) {
+      connectionList = connectionList.filter(connection => connection.peer !== excludedPeerId);
     }
-    this.appendMessage(messageObject);
+    for (const connection of connectionList) {
+      connection.send(JSON.stringify(message));
+    }
+    this.appendMessage(message);
   }
 
-  appendMessage = (message: { nickname: string, message: string }) => this.messageList = this.messageList.concat(message);
+  appendMessage = (message: Message) => this.chatMessageList = this.chatMessageList.concat(message);
 
-  updateReadMessageCount = (count: number) => this.readMessageCount = count;
+  updateReadChatMessageCount = (count: number) => this.readMessageCount = count;
 
 }

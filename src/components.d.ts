@@ -5,14 +5,12 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { Message, } from "./utils/message";
 export namespace Components {
     interface AppChat {
-        "messageList": {
-            nickname: string;
-            message: string;
-        }[];
-        "sendMessage": (message: string) => void;
-        "updateReadMessageCount": (count: number) => void;
+        "chatMessageList": Message[];
+        "sendChatMessage": (message: string) => void;
+        "updateReadChatMessageCount": (count: number) => void;
     }
     interface AppGame {
     }
@@ -25,8 +23,9 @@ export namespace Components {
             nickname: string;
             message: string;
         }) => void;
-        "claimHost": (isHost: boolean) => void;
         "connectToPeer": (peerId: string) => void;
+        "createPeer": (peerId?: string) => void;
+        "hostId": string;
         "nickname": string;
         "peerId": string;
         "updateNickname": (nickname: string) => void;
@@ -92,12 +91,9 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppChat {
-        "messageList"?: {
-            nickname: string;
-            message: string;
-        }[];
-        "sendMessage"?: (message: string) => void;
-        "updateReadMessageCount"?: (count: number) => void;
+        "chatMessageList"?: Message[];
+        "sendChatMessage"?: (message: string) => void;
+        "updateReadChatMessageCount"?: (count: number) => void;
     }
     interface AppGame {
     }
@@ -110,8 +106,9 @@ declare namespace LocalJSX {
             nickname: string;
             message: string;
         }) => void;
-        "claimHost"?: (isHost: boolean) => void;
         "connectToPeer"?: (peerId: string) => void;
+        "createPeer"?: (peerId?: string) => void;
+        "hostId"?: string;
         "nickname"?: string;
         "peerId"?: string;
         "updateNickname"?: (nickname: string) => void;
