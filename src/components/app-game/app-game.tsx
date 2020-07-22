@@ -20,6 +20,9 @@ export class AppGame implements ComponentInterface {
           <ion-grid>
             <ion-row>
               <ion-col>
+                <ion-button href="/game/tic-tac-toe">Tie Tac Toe</ion-button>
+              </ion-col>
+              <ion-col>
                 <ion-button href="/game/who-is-the-spy">Who Is the Spy</ion-button>
               </ion-col>
               <ion-col>

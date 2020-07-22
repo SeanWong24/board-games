@@ -16,6 +16,8 @@ export namespace Components {
     }
     interface AppGameCodenames {
     }
+    interface AppGameTicTacToe {
+    }
     interface AppGameWhoIsTheSpy {
     }
     interface AppHome {
@@ -55,6 +57,12 @@ declare global {
         prototype: HTMLAppGameCodenamesElement;
         new (): HTMLAppGameCodenamesElement;
     };
+    interface HTMLAppGameTicTacToeElement extends Components.AppGameTicTacToe, HTMLStencilElement {
+    }
+    var HTMLAppGameTicTacToeElement: {
+        prototype: HTMLAppGameTicTacToeElement;
+        new (): HTMLAppGameTicTacToeElement;
+    };
     interface HTMLAppGameWhoIsTheSpyElement extends Components.AppGameWhoIsTheSpy, HTMLStencilElement {
     }
     var HTMLAppGameWhoIsTheSpyElement: {
@@ -83,6 +91,7 @@ declare global {
         "app-chat": HTMLAppChatElement;
         "app-game": HTMLAppGameElement;
         "app-game-codenames": HTMLAppGameCodenamesElement;
+        "app-game-tic-tac-toe": HTMLAppGameTicTacToeElement;
         "app-game-who-is-the-spy": HTMLAppGameWhoIsTheSpyElement;
         "app-home": HTMLAppHomeElement;
         "app-root": HTMLAppRootElement;
@@ -98,6 +107,8 @@ declare namespace LocalJSX {
     interface AppGame {
     }
     interface AppGameCodenames {
+    }
+    interface AppGameTicTacToe {
     }
     interface AppGameWhoIsTheSpy {
     }
@@ -122,6 +133,7 @@ declare namespace LocalJSX {
         "app-chat": AppChat;
         "app-game": AppGame;
         "app-game-codenames": AppGameCodenames;
+        "app-game-tic-tac-toe": AppGameTicTacToe;
         "app-game-who-is-the-spy": AppGameWhoIsTheSpy;
         "app-home": AppHome;
         "app-root": AppRoot;
@@ -135,6 +147,7 @@ declare module "@stencil/core" {
             "app-chat": LocalJSX.AppChat & JSXBase.HTMLAttributes<HTMLAppChatElement>;
             "app-game": LocalJSX.AppGame & JSXBase.HTMLAttributes<HTMLAppGameElement>;
             "app-game-codenames": LocalJSX.AppGameCodenames & JSXBase.HTMLAttributes<HTMLAppGameCodenamesElement>;
+            "app-game-tic-tac-toe": LocalJSX.AppGameTicTacToe & JSXBase.HTMLAttributes<HTMLAppGameTicTacToeElement>;
             "app-game-who-is-the-spy": LocalJSX.AppGameWhoIsTheSpy & JSXBase.HTMLAttributes<HTMLAppGameWhoIsTheSpyElement>;
             "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
