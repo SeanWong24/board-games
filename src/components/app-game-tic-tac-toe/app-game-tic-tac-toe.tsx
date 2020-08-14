@@ -1,4 +1,5 @@
 import { Component, ComponentInterface, Host, h, State } from "@stencil/core";
+import { TicTacToeGame } from "./tic-tac-toe-game";
 
 @Component({
   tag: "app-game-tic-tac-toe",
@@ -7,8 +8,10 @@ import { Component, ComponentInterface, Host, h, State } from "@stencil/core";
 })
 export class AppGameTicTacToe implements ComponentInterface {
 
+  game: TicTacToeGame;
+
   @State() isPlaying: boolean = false;
-  @State() board: string[] = ['', '', '', '', '', '', '', '', ''];
+  @State() board: string[] //= ['', '', '', '', '', '', '', '', ''];
 
   render() {
     return (
@@ -22,7 +25,10 @@ export class AppGameTicTacToe implements ComponentInterface {
             <ion-buttons slot="end">
               <ion-button
                 title={this.isPlaying ? "Quit Game" : "Launch Game"}
-                onClick={() => this.isPlaying = !this.isPlaying}
+                onClick={() => {
+                  this.isPlaying = !this.isPlaying;
+                  this.game = new TicTacToeGame(this.gameUpdateHandler);
+                }}
               >
                 <ion-icon
                   slot="icon-only"
@@ -44,15 +50,15 @@ export class AppGameTicTacToe implements ComponentInterface {
                     <ion-grid>
                       <ion-row>
                         {
-                          this.board.map(d => (
+                          this.board.map((d, i) => (
                             <ion-col size="4">
                               <ion-button
                                 color="medium"
-                                onClick={event => {
-                                  const buttonElement = (event.target as HTMLIonButtonElement);
-                                  buttonElement.fill = 'outline';
+                                fill={d ? 'outline' : 'solid'}
+                                onClick={() => {
+                                  this.game.play([parseInt((i / 3).toString()), i % 3]);
                                 }}
-                              ></ion-button>
+                              >{d}</ion-button>
                             </ion-col>)
                           )
                         }
@@ -85,4 +91,10 @@ export class AppGameTicTacToe implements ComponentInterface {
       </Host>
     );
   }
+
+  gameUpdateHandler = (gameBoard: string[][], nextPlayer: string, isGameFinished?: boolean) => {
+    this.board = gameBoard.flatMap(cell => cell);
+    alert(`Player ${nextPlayer}'s turn.`);
+  }
+
 }
